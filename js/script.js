@@ -92,18 +92,15 @@ const getFiveDayWeatherData = (city) => {
         .catch(err => console.log(err));
 };
 
-const renderWeatherData = async () => {
-    const cityToSearch = document.getElementById('cityToSearch').value;
+const renderWeatherData = async (cityToSearch) => {
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
 
-    console.log('Current Weather Data', currentWeatherData);
     currentCityEl.textContent = currentWeatherData.name + ' ' + unixToDate(currentWeatherData.dt);
     currentTempEl.textContent = currentWeatherData.main.temp;
     currentWindEl.textContent = currentWeatherData.wind.speed;
     currentHumidityEl.textContent = currentWeatherData.main.humidity;
     const fiveDayWeatherData = await getFiveDayWeatherData(cityToSearch);
 
-    console.log('Forecast Data',fiveDayWeatherData);
     dayOneDateEl.textContent = unixToDate(fiveDayWeatherData.list[3].dt);
     dayOneTempEl.textContent = fiveDayWeatherData.list[3].main.temp;
     dayOneWindEl.textContent = fiveDayWeatherData.list[3].wind.speed;
@@ -130,6 +127,7 @@ const renderWeatherData = async () => {
     dayFiveHumidityEl.textContent = fiveDayWeatherData.list[34].main.humidity;
 };
 
+//Converts unix timestamp to date in the format mm/dd/yyyy
 const unixToDate = (unix) => {
     const date = new Date(unix * 1000);
     const month = date.getMonth() + 1;
@@ -140,6 +138,27 @@ const unixToDate = (unix) => {
     return `${formattedMonth}/${formattedDay}/${year}`;
 };
 
-renderWeatherData();
-searchBtnEl.addEventListener('click', () => renderWeatherData());
+const generateSearchHistoryBtn = () => {
+    //Generates a button to click whenever a city is searched
+    const buttonEl = document.createElement('button');
+    const cityToSearch = document.getElementById('cityToSearch').value;
+    buttonEl.textContent = cityToSearch;
+    buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center');
+    buttonEl.addEventListener('click', () => {
+        renderWeatherData(cityToSearch);
+    });
+
+    //Targets the search history container and appends the new button
+    const searchHistoryEl = document.getElementById('searchHistory');
+    searchHistoryEl.appendChild(buttonEl);
+}
+
+//Displays information for the default city on page load
+renderWeatherData(document.getElementById('cityToSearch').value);
+
+searchBtnEl.addEventListener('click', () => {
+    const cityFromSearchInput = document.getElementById('cityToSearch').value;
+    renderWeatherData(cityFromSearchInput);
+    generateSearchHistoryBtn();
+});
 
