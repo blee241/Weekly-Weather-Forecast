@@ -4,7 +4,7 @@ const apiCallCurrentWeather = (latitude, longitude) => `https://api.openweatherm
 const apiCallFiveDay = (latitude, longitude) => `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=imperial&appid=${apiKey}`;
 const searchBtnEl = document.getElementById('searchBtn');
 
-//Variables for the currect city elements
+//Variables for the currect city elements and forecast elements
 const currentCityEl = document.getElementById('currentCity');
 const currentTempEl = document.getElementById('currentTemp');
 const currentWindEl = document.getElementById('currentWind');
@@ -14,6 +14,16 @@ const dayOneDateEl = document.getElementById('dayOneDate');
 const dayOneTempEl = document.getElementById('dayOneTemp');
 const dayOneWindEl = document.getElementById('dayOneWind');
 const dayOneHumidityEl = document.getElementById('dayOneHumidity');
+
+const dayTwoDateEl = document.getElementById('dayTwoDate');
+const dayTwoTempEl = document.getElementById('dayTwoTemp');
+const dayTwoWindEl = document.getElementById('dayTwoWind');
+const dayTwoHumidityEl = document.getElementById('dayTwoHumidity');
+
+const dayThreeDateEl = document.getElementById('dayThreeDate');
+const dayThreeTempEl = document.getElementById('dayThreeTemp');
+const dayThreeWindEl = document.getElementById('dayThreeWind');
+const dayThreeHumidityEl = document.getElementById('dayThreeHumidity');
 
 //Grabs the latitude and longitude of a searched city
 const getLatLon = (city) => {
@@ -75,17 +85,29 @@ const getFiveDayWeatherData = (city) => {
 const renderWeatherData = async () => {
     const cityToSearch = document.getElementById('cityToSearch').value;
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
+
     console.log('Current Weather Data', currentWeatherData);
     currentCityEl.textContent = currentWeatherData.name + ' ' + unixToDate(currentWeatherData.dt);
     currentTempEl.textContent = currentWeatherData.main.temp;
     currentWindEl.textContent = currentWeatherData.wind.speed;
     currentHumidityEl.textContent = currentWeatherData.main.humidity;
     const fiveDayWeatherData = await getFiveDayWeatherData(cityToSearch);
+
     console.log('Forecast Data',fiveDayWeatherData);
     dayOneDateEl.textContent = unixToDate(fiveDayWeatherData.list[3].dt);
     dayOneTempEl.textContent = fiveDayWeatherData.list[3].main.temp;
     dayOneWindEl.textContent = fiveDayWeatherData.list[3].wind.speed;
     dayOneHumidityEl.textContent = fiveDayWeatherData.list[3].main.humidity;
+
+    dayTwoDateEl.textContent = unixToDate(fiveDayWeatherData.list[11].dt);
+    dayTwoTempEl.textContent = fiveDayWeatherData.list[11].main.temp;
+    dayTwoWindEl.textContent = fiveDayWeatherData.list[11].wind.speed;
+    dayTwoHumidityEl.textContent = fiveDayWeatherData.list[11].main.humidity;
+
+    dayThreeDateEl.textContent = unixToDate(fiveDayWeatherData.list[18].dt);
+    dayThreeTempEl.textContent = fiveDayWeatherData.list[18].main.temp;
+    dayThreeWindEl.textContent = fiveDayWeatherData.list[18].wind.speed;
+    dayThreeHumidityEl.textContent = fiveDayWeatherData.list[18].main.humidity;
 };
 
 const unixToDate = (unix) => {
