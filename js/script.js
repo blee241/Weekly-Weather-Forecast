@@ -10,6 +10,7 @@ const currentTempEl = document.getElementById('currentTemp');
 const currentWindEl = document.getElementById('currentWind');
 const currentHumidityEl = document.getElementById('currentHumidity');
 
+const dayOneDateEl = document.getElementById('dayOneDate');
 const dayOneTempEl = document.getElementById('dayOneTemp');
 const dayOneWindEl = document.getElementById('dayOneWind');
 const dayOneHumidityEl = document.getElementById('dayOneHumidity');
@@ -75,15 +76,26 @@ const renderWeatherData = async () => {
     const cityToSearch = document.getElementById('cityToSearch').value;
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
     console.log('Current Weather Data', currentWeatherData);
-    currentCityEl.textContent = currentWeatherData.name;
+    currentCityEl.textContent = currentWeatherData.name + ' ' + unixToDate(currentWeatherData.dt);
     currentTempEl.textContent = currentWeatherData.main.temp;
     currentWindEl.textContent = currentWeatherData.wind.speed;
     currentHumidityEl.textContent = currentWeatherData.main.humidity;
     const fiveDayWeatherData = await getFiveDayWeatherData(cityToSearch);
     console.log('Forecast Data',fiveDayWeatherData);
+    dayOneDateEl.textContent = unixToDate(fiveDayWeatherData.list[3].dt);
     dayOneTempEl.textContent = fiveDayWeatherData.list[3].main.temp;
     dayOneWindEl.textContent = fiveDayWeatherData.list[3].wind.speed;
     dayOneHumidityEl.textContent = fiveDayWeatherData.list[3].main.humidity;
+};
+
+const unixToDate = (unix) => {
+    const date = new Date(unix * 1000);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const formattedMonth = month.toString().padStart(2, '0');
+    const formattedDay = day.toString().padStart(2, '0');
+    return `${formattedMonth}/${formattedDay}/${year}`;
 };
 
 renderWeatherData();
