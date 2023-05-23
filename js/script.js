@@ -92,8 +92,7 @@ const getFiveDayWeatherData = (city) => {
         .catch(err => console.log(err));
 };
 
-const renderWeatherData = async () => {
-    const cityToSearch = document.getElementById('cityToSearch').value;
+const renderWeatherData = async (cityToSearch) => {
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
 
     currentCityEl.textContent = currentWeatherData.name + ' ' + unixToDate(currentWeatherData.dt);
@@ -145,16 +144,21 @@ const generateSearchHistoryBtn = () => {
     const cityToSearch = document.getElementById('cityToSearch').value;
     buttonEl.textContent = cityToSearch;
     buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center');
-    buttonEl.addEventListener('click', renderWeatherData())
+    buttonEl.addEventListener('click', () => {
+        renderWeatherData(cityToSearch);
+    });
 
     //Targets the search history container and appends the new button
     const searchHistoryEl = document.getElementById('searchHistory');
     searchHistoryEl.appendChild(buttonEl);
 }
 
-renderWeatherData();
+//Displays information for the default city on page load
+renderWeatherData(document.getElementById('cityToSearch').value);
+
 searchBtnEl.addEventListener('click', () => {
+    const cityFromSearchInput = document.getElementById('cityToSearch').value;
+    renderWeatherData(cityFromSearchInput);
     generateSearchHistoryBtn();
-    renderWeatherData();
 });
-//Don't forget to call renderWeatherData after completing the branch
+
