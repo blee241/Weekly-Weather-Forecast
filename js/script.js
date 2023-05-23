@@ -25,6 +25,16 @@ const dayThreeTempEl = document.getElementById('dayThreeTemp');
 const dayThreeWindEl = document.getElementById('dayThreeWind');
 const dayThreeHumidityEl = document.getElementById('dayThreeHumidity');
 
+const dayFourDateEl = document.getElementById('dayFourDate');
+const dayFourTempEl = document.getElementById('dayFourTemp');
+const dayFourWindEl = document.getElementById('dayFourWind');
+const dayFourHumidityEl = document.getElementById('dayFourHumidity');
+
+const dayFiveDateEl = document.getElementById('dayFiveDate');
+const dayFiveTempEl = document.getElementById('dayFiveTemp');
+const dayFiveWindEl = document.getElementById('dayFiveWind');
+const dayFiveHumidityEl = document.getElementById('dayFiveHumidity');
+
 //Grabs the latitude and longitude of a searched city
 const getLatLon = (city) => {
     return fetch(apiCallGeolocator(city))
@@ -108,6 +118,16 @@ const renderWeatherData = async () => {
     dayThreeTempEl.textContent = fiveDayWeatherData.list[18].main.temp;
     dayThreeWindEl.textContent = fiveDayWeatherData.list[18].wind.speed;
     dayThreeHumidityEl.textContent = fiveDayWeatherData.list[18].main.humidity;
+
+    dayFourDateEl.textContent = unixToDate(fiveDayWeatherData.list[26].dt);
+    dayFourTempEl.textContent = fiveDayWeatherData.list[26].main.temp;
+    dayFourWindEl.textContent = fiveDayWeatherData.list[26].wind.speed;
+    dayFourHumidityEl.textContent = fiveDayWeatherData.list[26].main.humidity;
+
+    dayFiveDateEl.textContent = unixToDate(fiveDayWeatherData.list[34].dt);
+    dayFiveTempEl.textContent = fiveDayWeatherData.list[34].main.temp;
+    dayFiveWindEl.textContent = fiveDayWeatherData.list[34].wind.speed;
+    dayFiveHumidityEl.textContent = fiveDayWeatherData.list[34].main.humidity;
 };
 
 const unixToDate = (unix) => {
