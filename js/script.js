@@ -92,19 +92,16 @@ const getFiveDayWeatherData = (city) => {
         .catch(err => console.log(err));
 };
 
-//Renders the weather data
 const renderWeatherData = async () => {
     const cityToSearch = document.getElementById('cityToSearch').value;
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
 
-    console.log('Current Weather Data', currentWeatherData);
     currentCityEl.textContent = currentWeatherData.name + ' ' + unixToDate(currentWeatherData.dt);
     currentTempEl.textContent = currentWeatherData.main.temp;
     currentWindEl.textContent = currentWeatherData.wind.speed;
     currentHumidityEl.textContent = currentWeatherData.main.humidity;
     const fiveDayWeatherData = await getFiveDayWeatherData(cityToSearch);
 
-    console.log('Forecast Data',fiveDayWeatherData);
     dayOneDateEl.textContent = unixToDate(fiveDayWeatherData.list[3].dt);
     dayOneTempEl.textContent = fiveDayWeatherData.list[3].main.temp;
     dayOneWindEl.textContent = fiveDayWeatherData.list[3].wind.speed;
@@ -147,7 +144,8 @@ const generateSearchHistoryBtn = () => {
     const buttonEl = document.createElement('button');
     const cityToSearch = document.getElementById('cityToSearch').value;
     buttonEl.textContent = cityToSearch;
-    buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center')
+    buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center');
+    buttonEl.addEventListener('click', renderWeatherData())
 
     //Targets the search history container and appends the new button
     const searchHistoryEl = document.getElementById('searchHistory');
@@ -155,5 +153,8 @@ const generateSearchHistoryBtn = () => {
 }
 
 renderWeatherData();
-searchBtnEl.addEventListener('click', () => generateSearchHistoryBtn());
-
+searchBtnEl.addEventListener('click', () => {
+    generateSearchHistoryBtn();
+    renderWeatherData();
+});
+//Don't forget to call renderWeatherData after completing the branch
