@@ -142,15 +142,18 @@ const unixToDate = (unix) => {
     return `${formattedMonth}/${formattedDay}/${year}`;
 };
 
-//Generates a button to click whenever a city is searched
-const buttonEl = document.createElement('button');
-buttonEl.textContent = 'Test';
-buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center')
+const generateSearchHistoryBtn = () => {
+    //Generates a button to click whenever a city is searched
+    const buttonEl = document.createElement('button');
+    const cityToSearch = document.getElementById('cityToSearch').value;
+    buttonEl.textContent = cityToSearch;
+    buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center')
 
-//Targets the search history container and appends the new button
-const searchHistoryEl = document.getElementById('searchHistory');
-searchHistoryEl.appendChild(buttonEl);
+    //Targets the search history container and appends the new button
+    const searchHistoryEl = document.getElementById('searchHistory');
+    searchHistoryEl.appendChild(buttonEl);
+}
 
 renderWeatherData();
-searchBtnEl.addEventListener('click', () => renderWeatherData());
+searchBtnEl.addEventListener('click', () => generateSearchHistoryBtn());
 
