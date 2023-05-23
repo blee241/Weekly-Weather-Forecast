@@ -153,12 +153,40 @@ const generateSearchHistoryBtn = () => {
     searchHistoryEl.appendChild(buttonEl);
 }
 
+const saveToLocal = () => {
+    const cityFromSearchInput = document.getElementById('cityToSearch').value;
+    localStorage.setItem(cityFromSearchInput, cityFromSearchInput);
+};
+
+const makeBtnsFrmLocal = () => {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+            const cityName = value;
+            const buttonEl = document.createElement('button');
+            console.log(cityName);
+            buttonEl.textContent = cityName;
+            buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center');
+            buttonEl.addEventListener('click', () => renderWeatherData(cityName));
+
+            //Targets the search history container and appends the new button
+            const searchHistoryEl = document.getElementById('searchHistory');
+            searchHistoryEl.appendChild(buttonEl);
+        };
+    };
+};
+
 //Displays information for the default city on page load
 renderWeatherData(document.getElementById('cityToSearch').value);
+
+//Displays saved cities from local storage on page load
+makeBtnsFrmLocal();
 
 searchBtnEl.addEventListener('click', () => {
     const cityFromSearchInput = document.getElementById('cityToSearch').value;
     renderWeatherData(cityFromSearchInput);
+    saveToLocal();
     generateSearchHistoryBtn();
 });
 
