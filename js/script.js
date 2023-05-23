@@ -92,6 +92,7 @@ const getFiveDayWeatherData = (city) => {
         .catch(err => console.log(err));
 };
 
+//Renders the weather data
 const renderWeatherData = async () => {
     const cityToSearch = document.getElementById('cityToSearch').value;
     const currentWeatherData = await getCurrentWeatherData(cityToSearch);
@@ -130,6 +131,7 @@ const renderWeatherData = async () => {
     dayFiveHumidityEl.textContent = fiveDayWeatherData.list[34].main.humidity;
 };
 
+//Converts unix timestamp to date in the format mm/dd/yyyy
 const unixToDate = (unix) => {
     const date = new Date(unix * 1000);
     const month = date.getMonth() + 1;
@@ -139,6 +141,15 @@ const unixToDate = (unix) => {
     const formattedDay = day.toString().padStart(2, '0');
     return `${formattedMonth}/${formattedDay}/${year}`;
 };
+
+//Generates a button to click whenever a city is searched
+const buttonEl = document.createElement('button');
+buttonEl.textContent = 'Test';
+buttonEl.setAttribute('class', 'w-100 my-1 bg-secondary text-white fs-5 h-auto text-center')
+
+//Targets the search history container and appends the new button
+const searchHistoryEl = document.getElementById('searchHistory');
+searchHistoryEl.appendChild(buttonEl);
 
 renderWeatherData();
 searchBtnEl.addEventListener('click', () => renderWeatherData());
